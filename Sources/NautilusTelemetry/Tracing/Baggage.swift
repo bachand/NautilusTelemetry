@@ -69,7 +69,7 @@ public final class Baggage: TelemetryAttributesContainer, @unchecked Sendable {
 	}
 
 	public subscript(name: String) -> AnyHashable? {
-		lock.withLockUnchecked {
+		lock.withLock {
 			_attributes?[name]
 		}
 	}

@@ -132,7 +132,7 @@ public final class Span: TelemetryAttributesContainer, Identifiable {
 	}
 
 	public subscript(name: String) -> AnyHashable? {
-		lock.withLockUnchecked {
+		lock.withLock {
 			_attributes?[name]
 		}
 	}
