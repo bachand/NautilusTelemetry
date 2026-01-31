@@ -115,7 +115,7 @@ public final class Span: TelemetryAttributesContainer, Identifiable {
 		}
 	}
 
-	/// Adds an attribute to the span.
+	/// Adds an attribute to the span. If an attribute with the same name already exists, its value will be updated.
 	/// - Parameters:
 	///   - name: a name, conforming to https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/trace/semantic_conventions
 	///   - value: a value.
