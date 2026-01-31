@@ -131,7 +131,7 @@ final class TracerTests: XCTestCase {
 	func testBaggageAttributesPropagateToSpan() {
 		let parent = tracer.startSpan(name: "parent")
 		let baggage = Baggage(span: parent)
-		baggage["baggage.key"] = "baggage.value"
+		baggage.addAttribute("baggage.key", "baggage.value")
 
 		let child = tracer.buildSpan(name: "child", baggage: baggage)
 
@@ -141,7 +141,7 @@ final class TracerTests: XCTestCase {
 	func testSpanAttributesOverrideBaggageAttributes() {
 		let parent = tracer.startSpan(name: "parent")
 		let baggage = Baggage(span: parent)
-		baggage["shared.key"] = "from.baggage"
+		baggage.addAttribute("shared.key", "from.baggage")
 
 		let spanAttributes: TelemetryAttributes = ["shared.key": "from.span"]
 		let child = tracer.buildSpan(name: "child", attributes: spanAttributes, baggage: baggage)

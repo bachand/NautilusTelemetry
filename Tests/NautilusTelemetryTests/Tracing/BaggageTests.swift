@@ -21,13 +21,13 @@ final class BaggageTests: XCTestCase {
 		XCTAssertEqual(baggage["key1"], "value1")
 
 		// test subscripts
-		baggage["key2"] = "value2"
+		baggage.addAttribute("key2", "value2")
 
 		XCTAssertEqual(baggage["key2"], "value2")
 
 		// test overwriting
-		baggage["overwrite"] = "original"
-		baggage["overwrite"] = "updated"
+		baggage.addAttribute("overwrite", "original")
+		baggage.addAttribute("overwrite", "updated")
 
 		XCTAssertEqual(baggage["overwrite"], "updated")
 	}
@@ -48,7 +48,7 @@ final class BaggageTests: XCTestCase {
 		let baggage = Baggage(span: span)
 
 		DispatchQueue.concurrentPerform(iterations: 100) { i in
-			baggage["key\(i)"] = "value\(i)"
+			baggage.addAttribute("key\(i)", "value\(i)")
 		}
 
 		// Verify at least some attributes were written

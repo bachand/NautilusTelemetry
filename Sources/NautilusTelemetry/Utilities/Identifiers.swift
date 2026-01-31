@@ -17,8 +17,8 @@ public typealias TelemetryAttributes = [String: AnyHashable]
 // MARK: - TelemetryAttributesContainer
 
 public protocol TelemetryAttributesContainer: AnyObject {
-	func addAttribute(_ name: String, _ value: AnyHashable?)
-	subscript(_: String) -> AnyHashable? { get set }
+	func addAttribute<T: Hashable & Sendable>(_ name: String, _ value: T?)
+	subscript(_: String) -> AnyHashable? { get }
 }
 
 // These could be converted to UInt128 / UInt64, once UInt128 is widely available

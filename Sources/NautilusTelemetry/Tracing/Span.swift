@@ -119,28 +119,21 @@ public final class Span: TelemetryAttributesContainer, Identifiable {
 	/// - Parameters:
 	///   - name: a name, conforming to https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/trace/semantic_conventions
 	///   - value: a value.
-	public func addAttribute(_ name: String, _ value: AnyHashable?) {
+	public func addAttribute<T: Hashable & Sendable>(_ name: String, _ value: T?) {
 		guard let value else { return }
 
-		// AnyHashable is not Sendable. For now, make this unchecked, but could consider wrapping ala:
-		// https://github.com/pointfreeco/swift-concurrency-extras/blob/main/Sources/ConcurrencyExtras/AnyHashableSendable.swift
-		lock.withLockUnchecked {
+		lock.withLock {
 			if _attributes == nil {
 				_attributes = TelemetryAttributes()
 			}
 
-			_attributes?[name] = value
+			_attributes?[name] = AnyHashable(value)
 		}
 	}
 
 	public subscript(name: String) -> AnyHashable? {
-		get {
-			lock.withLockUnchecked {
-				_attributes?[name]
-			}
-		}
-		set(newValue) {
-			addAttribute(name, newValue)
+		lock.withLockUnchecked {
+			_attributes?[name]
 		}
 	}
 
